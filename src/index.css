@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F7F8F5;
+    --foreground: #202923;
+    --surface: #FFFFFF;
+    --surface-secondary: #F3F5F2;
+    --surface-border: #E8ECE7;
+    --text-muted: #758078;
+    --forest: #203C34;
+    --sage: #739181;
+    --sage-light: #E9EEE9;
+    --sand: #E9E5DC;
+  }
+
+  .dark {
+    --background: #141A17;
+    --foreground: #E9EFEA;
+    --surface: #1C2420;
+    --surface-secondary: #232C27;
+    --surface-border: #2C3731;
+    --text-muted: #8E9C93;
+    --forest: #3A6C5F;
+    --sage: #8BB09D;
+    --sage-light: #25332C;
+    --sand: #363A33;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1, "cv02" 1, "cv03" 1, "cv04" 1;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(115, 145, 129, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(115, 145, 129, 0.45);
+}
+
+/* Subtle table row highlights */
+.nordic-table-row:hover {
+  background-color: rgba(115, 145, 129, 0.04);
+}
+
+/* Command Palette Backdrop */
+.command-backdrop {
+  backdrop-filter: blur(8px);
+}
