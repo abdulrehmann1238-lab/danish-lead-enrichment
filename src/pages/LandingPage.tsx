@@ -35,6 +35,27 @@ export const LandingPage: React.FC = () => {
   // FAQ Accordion State
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
 
+  // Smooth hash scroll listener on mount and hash changes
+  React.useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            const yOffset = -85;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    };
+
+    handleHashScroll();
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, []);
+
   const handleHeroReveal = () => {
     if (heroRevealed || heroRevealing) return;
     setHeroRevealing(true);
@@ -344,7 +365,8 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 6.4 PLATFORM FEATURES */}
-      <section id="features" className="py-24">
+      <div id="database" className="scroll-mt-28" />
+      <section id="features" className="py-24 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <h2 className="text-xs font-semibold tracking-wider text-[#739181] uppercase">
@@ -360,13 +382,19 @@ export const LandingPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1 */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#1C2420] border border-[#E8ECE7] dark:border-[#2C3731] shadow-card hover:shadow-dropdown transition-all space-y-4 group">
+            <div id="database-section" className="p-6 rounded-2xl bg-white dark:bg-[#1C2420] border border-[#E8ECE7] dark:border-[#2C3731] shadow-card hover:shadow-dropdown transition-all space-y-4 group">
               <div className="w-10 h-10 rounded-xl bg-[#E9EEE9] dark:bg-[#25332C] flex items-center justify-center text-[#203C34] dark:text-[#8BB09D] group-hover:scale-105 transition-transform">
                 <Database className="w-5 h-5" />
               </div>
-              <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
-                Danish Contact Database
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
+                  Danish Contact Database
+                </h4>
+                <Link to="/app/contacts" className="text-xs font-semibold text-[#739181] hover:text-[#203C34] dark:hover:text-white flex items-center space-x-1">
+                  <span>Open Database</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
               <p className="text-xs sm:text-sm text-[#758078] dark:text-[#8E9C93] leading-relaxed">
                 Search thousands of Danish professionals and companies with verified job titles, locations, and CVR identifiers.
               </p>
@@ -377,22 +405,34 @@ export const LandingPage: React.FC = () => {
               <div className="w-10 h-10 rounded-xl bg-[#E9EEE9] dark:bg-[#25332C] flex items-center justify-center text-[#203C34] dark:text-[#8BB09D] group-hover:scale-105 transition-transform">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
-                Intelligent Enrichment
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
+                  Intelligent Enrichment
+                </h4>
+                <Link to="/app/enrichment" className="text-xs font-semibold text-[#739181] hover:text-[#203C34] dark:hover:text-white flex items-center space-x-1">
+                  <span>Try Workflow</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
               <p className="text-xs sm:text-sm text-[#758078] dark:text-[#8E9C93] leading-relaxed">
                 Find business emails and direct mobile numbers through multiple providers with automated waterfall routing.
               </p>
             </div>
 
             {/* Card 3 */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#1C2420] border border-[#E8ECE7] dark:border-[#2C3731] shadow-card hover:shadow-dropdown transition-all space-y-4 group">
+            <div id="cvr" className="p-6 rounded-2xl bg-white dark:bg-[#1C2420] border border-[#E8ECE7] dark:border-[#2C3731] shadow-card hover:shadow-dropdown transition-all space-y-4 group scroll-mt-28">
               <div className="w-10 h-10 rounded-xl bg-[#E9EEE9] dark:bg-[#25332C] flex items-center justify-center text-[#203C34] dark:text-[#8BB09D] group-hover:scale-105 transition-transform">
                 <Building2 className="w-5 h-5" />
               </div>
-              <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
-                Company Intelligence
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-display text-lg font-bold text-[#202923] dark:text-white">
+                  Company Intelligence
+                </h4>
+                <Link to="/app/companies" className="text-xs font-semibold text-[#739181] hover:text-[#203C34] dark:hover:text-white flex items-center space-x-1">
+                  <span>Search CVR</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
               <p className="text-xs sm:text-sm text-[#758078] dark:text-[#8E9C93] leading-relaxed">
                 Explore real company registration records from the official Danish Central Business Register (CVR).
               </p>
@@ -509,7 +549,8 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 6.6 ENRICHMENT PROVIDER SECTION */}
-      <section id="providers" className="py-24">
+      <div id="enrichment" className="scroll-mt-28" />
+      <section id="providers" className="py-24 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <h2 className="text-xs font-semibold tracking-wider text-[#739181] uppercase">
@@ -588,7 +629,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 6.7 PRICING SECTION */}
-      <section id="pricing" className="py-24 bg-white dark:bg-[#1C2420] border-y border-[#E8ECE7] dark:border-[#2C3731] transition-colors">
+      <section id="pricing" className="py-24 bg-white dark:bg-[#1C2420] border-y border-[#E8ECE7] dark:border-[#2C3731] transition-colors scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <h2 className="text-xs font-semibold tracking-wider text-[#739181] uppercase">
@@ -747,7 +788,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 6.8 FAQ SECTION */}
-      <section id="faq" className="py-24">
+      <section id="faq" className="py-24 scroll-mt-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 space-y-3">
             <h2 className="text-xs font-semibold tracking-wider text-[#739181] uppercase">
